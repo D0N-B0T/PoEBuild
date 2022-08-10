@@ -1,5 +1,5 @@
-from views import downloader
-from views import main
+import downloader
+import main
 
 main = main.Main()
 downloader = downloader.Downloader()

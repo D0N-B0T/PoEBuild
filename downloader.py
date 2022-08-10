@@ -36,11 +36,11 @@ def downloadbuilds():
                     if link_build.startswith('https://www.poebuilds.cc/'):
                         continue
                     else:
-                        with open('buildname.txt', 'a', encoding='utf-8') as f: 
+                        with open('dyn/buildname.txt', 'a', encoding='utf-8') as f: 
                             f.write(tablist[i] + ' ')
                             f.write(name_build)
                             f.write('\n')
-                        with open('buildlink.txt', 'a', encoding='utf-8') as f: 
+                        with open('dyn/buildlink.txt', 'a', encoding='utf-8') as f: 
                             f.write(link_build)
                             f.write('\n')
             except:
