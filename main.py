@@ -1,3 +1,4 @@
+from genericpath import exists
 from textwrap import wrap
 from time import sleep
 import time
@@ -5,23 +6,24 @@ import requests, random, webbrowser, os
 from bs4 import BeautifulSoup
 from PIL import ImageTk, Image
 import downloader as dwview
-import ttkbootstrap as ttk
-from ttkbootstrap.constants import *
-from ttkbootstrap.dialogs import Messagebox
 import tkinter as tk
-from tkinter import Menu
+import tkinter.ttk as ttk
+import pygubu
+import pathlib
+from tkfontawesome import icon_to_image
 
 
 
 # === functions ===
 tablist  = ["duelist", 'marauder', 'ranger', 'scion', 'templar', 'witch', 'shadow']
 
-def randombuild():            
+def randombuild():   
+             
     with open('buildname.txt', 'r', encoding='utf-8') as f:
         buildnamelab = ttk.Label(root, wrap = 300)
         buildnamelab.place(x=300, y=50)
         buildlinklab = ttk.Label(root, text=buildnamelab.cget("text"), cursor='hand2')
-        buildlinklab.place(x=300, y=100)
+        buildlinklab.place(x=300, y=120)
         buildlinklab.bind("<Button-1>", lambda e: webbrowser.open_new(buildlinklab.get()))
         lines = f.readlines()
         rand = random.randint(0,len(lines)-1)
@@ -83,11 +85,6 @@ def update():
     sleep(3)
     updatelab4.destroy()
 
-
-    
-
-
-
 def downloadbuilds2():
     url = "https://www.poebuilds.cc/"
     try:
@@ -138,7 +135,7 @@ def search():
             label = ttk.Label(root, text="No build found", font=("Arial", 10))
             label.place(x=300, y=200)
             label.after(2000, lambda: label.destroy())
-        search_entry.delete(0, END)
+        search_entry.delete(0, 'end')
 
 #  === root window ===
 root = tk.Tk()
@@ -147,17 +144,8 @@ dwview.pbar.update_idletasks()
 ws = root.winfo_screenwidth()
 hs = root.winfo_screenheight()
 root.geometry('%dx%d+%d+%d' % (300, 200, 500 , 100))
-# root.resizable(False, False)
+root.resizable(False, False)
 root.geometry("705x405")
-
-menubar = Menu(root)
-root.config(menu=menubar)
-
-file_menu = Menu(menubar)
-
-file_menu.add_command(label="Update", command=update)
-
-
 
 # === labels ===
 img = ImageTk.PhotoImage(Image.open('img/default.png'))
@@ -165,18 +153,27 @@ imgP = ttk.Label(root, image = img)
 imgP.place(x=0, y=0)
 imgP.image = img
 
-updatebuild_btn = ttk.Button(root, bootstyle="dark", text="!", compound=LEFT, command=update)
-updatebuild_btn.place(x=650, y=380)
+
+
+# === update ===
+upico = icon_to_image("sync-alt", scale_to_width=20)
+
+
+updatebuild_btn = ttk.Button(root, image=upico, command=update)
+updatebuild_btn.place(x=670, y=370)
 
 search_entry = ttk.Entry(root, width=30)
 search_entry.place(x=300, y=220)
 search_entry.focus_set()
 
-search_button = ttk.Button(root,bootstyle="dark", text="Search", command=search)
-search_button.place(x=300, y=240)
+search_button = ttk.Button(root, text="Search", command=search)
+search_button.place(x=300, y=260)
 
-randombuild_button = ttk.Button(root, bootstyle="success-outline", text="Random Build", command=randombuild)
-randombuild_button.place(x=300, y=280)
+randombuild_button = ttk.Button(root, text="Random Build", command=randombuild)
+randombuild_button.place(x=400, y=260)
+
+
+
 
 
 
